@@ -69,7 +69,7 @@ jobs:
         echo "---- TRAIN LOG END ----"
 
     - name: Commit training log back to repo (optional)
-      if: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+      if: always() && secrets.PERSONAL_ACCESS_TOKEN
       env:
         PAT: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
       run: |
