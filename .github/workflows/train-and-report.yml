@@ -69,9 +69,9 @@ jobs:
         echo "---- TRAIN LOG END ----"
 
     - name: Commit training log back to repo (optional)
-      if: always() && secrets.PERSONAL_ACCESS_TOKEN
+      if: always()
       env:
-        PAT: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+        PAT: ${{ secrets.GITHUB_TOKEN }}
       run: |
         set -e
         git --version
