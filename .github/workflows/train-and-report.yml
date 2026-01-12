@@ -56,3 +56,37 @@ jobs:
         name: training-log
         path: |
           train.log
+
+    - name: Print training log to job logs
+      if: always()
+      run: |
+        echo "---- TRAIN LOG START ----"
+        if [ -f train.log ]; then
+          cat train.log
+        else
+          echo "train.log not found"
+        fi
+        echo "---- TRAIN LOG END ----"
+
+    - name: Commit training log back to repo (optional)
+      if: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+      env:
+        PAT: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+      run: |
+        set -e
+        git --version
+        git config user.name "github-actions[bot]"
+        git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        BRANCH=training-logs-$(date +%s)
+        git checkout -b "$BRANCH"
+        mkdir -p logs
+        if [ -f train.log ]; then
+          cp train.log logs/train-$(date +%Y%m%d-%H%M%S).log
+        else
+          echo "train.log not found; nothing to commit"
+          exit 0
+        fi
+        git add logs
+        git commit -m "Add training log from workflow run ${{ github.run_id }}"
+        git remote set-url origin https://x-access-token:${PAT}@github.com/${{ github.repository }}
+        git push origin "$BRANCH"
