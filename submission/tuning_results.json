@@ -1,7 +1,0 @@
-{
-  "best_score": 0.9666666666666668,
-  "test_accuracy": 1.0,
-  "best_params": {
-    "logisticregression__C": 10.0
-  }
-}
