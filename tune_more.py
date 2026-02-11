@@ -82,13 +82,11 @@ with open(WORKDIR / 'tune_more_results.md', 'w', encoding='utf-8') as f:
         f.write(f'## {name}\n')
         f.write(f'- Best CV score: {r["best_cv_score"]:.4f}\n')
         f.write(f'- Test accuracy: {r["test_accuracy"]:.4f}\n')
-        f.write('```
-')
+        f.write('```\n')
         f.write(json.dumps(r['best_params'], indent=2))
         f.write('\n```\n\n')
         f.write('### Classification report\n')
-        f.write('```
-')
+        f.write('```\n')
         f.write(r['classification_report'])
         f.write('\n```\n')
         f.write(f'![Confusion matrix]({r["confusion_image"]})\n\n')
